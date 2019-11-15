@@ -19,14 +19,16 @@ try:
               "t°:{}°C,wind:{}m/s,{}mmHg,humidity:{}%.\n" \
               "Sun will set at {}. Have a nice day! :) "
 
-    Notify().send(message.format(
+    message = message.format(
         forecast["weather"][0]["description"],
         forecast["clouds"]["all"],
         round(forecast["main"]["temp"] - 273.15),
         forecast["wind"]["speed"],
         round(forecast["main"]["pressure"] / 1.33322),
         forecast["main"]["humidity"],
-        datetime.datetime.fromtimestamp(forecast["sys"]["sunset"]).strftime("%H:%M"),
-    ))
+        datetime.datetime.fromtimestamp(forecast["sys"]["sunset"]).strftime("%H:%M")
+    )
+
+    Notify().send(message)
 except:
     print("Something went wrong.")
