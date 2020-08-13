@@ -1,8 +1,5 @@
 # Python tutorials
 
-Simple application for learning python language.
+Demo application for learning python language.
 
-It has the following functionality:
-- parsing RSS feed (XML)
-- sending messages to Telegram channel
-- sending push notification with weather forecast to device
+The main goal is to receive daily exchange rates through the API, save them into the database and provide this data via API in a convenient structure.
