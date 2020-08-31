@@ -67,4 +67,5 @@ class MySQL(DB):
         return values, existing_currencies
 
     def __del__(self):
-        self.cursor.close()
+        if hasattr(self, 'cursor'):
+            self.cursor.close()

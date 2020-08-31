@@ -1,6 +1,6 @@
-import sys, inspect, configparser
-from os.path import dirname, abspath
-current_dir = dirname(abspath(inspect.getfile(inspect.currentframe())))
+import sys, configparser
+from os.path import dirname, abspath, join
+current_dir = dirname(abspath(__file__))
 parent_dir = dirname(current_dir)
 
 # add parent dir ("/src") to import folders
@@ -12,9 +12,14 @@ from datetime import date
 
 
 config = configparser.ConfigParser()
-config.read('settings.ini')
+config.read(join(parent_dir, 'settings.ini'))
+
+try:
+    currencies = CurrenciesClient().get_currencies_by_date()
+except Exception:
+    currencies = CurrenciesClient().get_currencies_by_date()
 
 MySQL().save_currencies(
-    CurrenciesClient().get_currencies_by_date(),
+    currencies,
     date.today().strftime("%Y%m%d")
 )
