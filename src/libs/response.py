@@ -1,5 +1,4 @@
-import json
-import datetime
+import json, datetime
 from src import __version__
 from flask import session
 from time import time
