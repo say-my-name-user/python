@@ -15,9 +15,9 @@ config = configparser.ConfigParser()
 config.read(join(parent_dir, 'settings.ini'))
 
 try:
-    exchange_rates = ExchangeRatesClient().get_rates_by_date()
+    exchange_rates, _ = ExchangeRatesClient().get_rates_by_date()
 except Exception:
-    exchange_rates = ExchangeRatesClient().get_rates_by_date()
+    exchange_rates, _ = ExchangeRatesClient().get_rates_by_date()
 
 MySQL().save_exchange_rates(
     exchange_rates,
