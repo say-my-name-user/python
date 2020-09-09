@@ -6,11 +6,11 @@ class DB(ABC):
         pass
 
     @abstractmethod
-    def get_currencies(self):
+    def get_currency(self):
         pass
 
     @abstractmethod
-    def get_currency_rates(self):
+    def get_exchange_rates(self, requested_date: str = None):
         pass
 
     @abstractmethod

@@ -7,7 +7,7 @@ parent_dir = dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
 from src.libs import MySQL
-from src.services import CurrenciesClient
+from src.services import ExchangeRatesClient
 from datetime import date
 
 
@@ -15,11 +15,11 @@ config = configparser.ConfigParser()
 config.read(join(parent_dir, 'settings.ini'))
 
 try:
-    currencies = CurrenciesClient().get_currencies_by_date()
+    exchange_rates = ExchangeRatesClient().get_rates_by_date()
 except Exception:
-    currencies = CurrenciesClient().get_currencies_by_date()
+    exchange_rates = ExchangeRatesClient().get_rates_by_date()
 
-MySQL().save_currencies(
-    currencies,
+MySQL().save_exchange_rates(
+    exchange_rates,
     date.today().strftime("%Y%m%d")
 )

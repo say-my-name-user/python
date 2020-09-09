@@ -1,6 +1,6 @@
 from flask import Flask, session, request
 from src.libs import MySQL, Response
-from src.services import CurrenciesClient
+from src.services import ExchangeRatesClient
 from src import __version__
 from time import time
 
@@ -9,24 +9,23 @@ app = Flask(__name__)
 app.secret_key = '5cb89b235901119c679e09dda78470e6'
 
 
-@app.route('/api/v{}/save_currencies'.format(__version__))
-def save_currencies():
-    requested_date = request.args.get('date')
-    currencies = CurrenciesClient().get_currencies_by_date(requested_date)
+@app.route('/api/v{}/save_exchange_rates'.format(__version__))
+def save_exchange_rates():
+    currency_list, requested_date = ExchangeRatesClient().get_rates_by_date(request.args.get('date'))
 
-    return Response(MySQL().save_currencies(currencies, requested_date)).json()
+    return Response(MySQL().save_exchange_rates(currency_list, requested_date)).json()
 
 
-@app.route('/api/v{}/currencies'.format(__version__))
-def get_currencies():
-    currencies = MySQL().get_currencies()
+@app.route('/api/v{}/currency'.format(__version__))
+def get_currency():
+    currencies = MySQL().get_currency()
 
     return Response(currencies).json()
 
 
-@app.route('/api/v{}/currency_rates'.format(__version__))
-def get_currency_rates():
-    currency_rates = MySQL().get_currency_rates()
+@app.route('/api/v{}/exchange_rates'.format(__version__))
+def get_exchange_rates():
+    currency_rates = MySQL().get_exchange_rates(request.args.get('date'))
 
     return Response(currency_rates).json()
 
@@ -44,6 +43,12 @@ def handle_exception(e):
 @app.before_request
 def before_request():
     session['start_time'] = time()
+
+
+@app.after_request
+def add_header(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 
 if __name__ == '__main__':

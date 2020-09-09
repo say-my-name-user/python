@@ -1,1 +1,1 @@
-from src.services.currencies_client import CurrenciesClient
+from src.services.exchange_rates_client import ExchangeRatesClient
