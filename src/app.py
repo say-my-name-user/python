@@ -1,6 +1,6 @@
 from flask import Flask, session, request
 from src.libs import MySQL, Response
-from src.services import ExchangeRatesClient
+from src.services import ExchangeRatesClient, PushNotificationsClient
 from src import __version__
 from time import time
 
@@ -28,6 +28,13 @@ def get_exchange_rates():
     currency_rates = MySQL().get_exchange_rates(request.args.get('date'))
 
     return Response(currency_rates).json()
+
+
+@app.route('/api/v{}/send_notification'.format(__version__))
+def send_notification():
+    response = PushNotificationsClient().send_notification(request.args.get('user_token'))
+
+    return Response(response).json()
 
 
 @app.errorhandler(Response.codes['NOT_FOUND'])

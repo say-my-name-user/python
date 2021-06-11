@@ -1,1 +1,2 @@
 from src.services.exchange_rates_client import ExchangeRatesClient
+from src.services.send_notification_client import PushNotificationsClient
